@@ -265,7 +265,7 @@ public class register extends javax.swing.JFrame {
             ps.setString(3, txtemail.getText());
             ps.setString(4, txtnotlp.getText());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registration successful!");
+            JOptionPane.showMessageDialog(null, "Registration successful!", "Restaurant Kita", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             new login().setVisible(true);
 

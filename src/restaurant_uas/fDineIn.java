@@ -231,7 +231,7 @@ public class fDineIn extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Restaurant Menus");
+        jLabel1.setText("Dine In Menu");
 
         labelDisplayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/ayamBakar.jpg"))); // NOI18N
 

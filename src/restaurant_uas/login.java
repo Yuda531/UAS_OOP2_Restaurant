@@ -7,6 +7,9 @@ package restaurant_uas;
 
 import javax.swing.JOptionPane;
 
+import java.util.prefs.Preferences;
+
+
 /**
  *
  * @author Agung Yuda
@@ -16,6 +19,8 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
+    Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+    
     public login() {
         initComponents();
         txtusername.setBackground(new java.awt.Color(0, 0, 0, 1));
@@ -26,6 +31,25 @@ public class login extends javax.swing.JFrame {
                 labelSignUpMouseClicked(evt);
             }
         });
+        
+        loadCredentials();
+    }
+    
+    private void loadCredentials() {
+        String savedUsername = prefs.get("username", "");
+
+        if (!savedUsername.isEmpty()) {
+            txtusername.setText(savedUsername);
+            checkbox_Remember.setSelected(true);
+        }
+    }
+    
+    private void saveCredentials(String username, String password) {
+        prefs.put("username", username);
+    }
+
+    private void clearCredentials() {
+        prefs.remove("username");
     }
 
     private void labelSignUpMouseClicked(java.awt.event.MouseEvent evt) {
@@ -57,7 +81,7 @@ public class login extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         disable = new javax.swing.JLabel();
         show = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkbox_Remember = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         btn_login = new javax.swing.JButton();
         labelSignUp = new javax.swing.JLabel();
@@ -153,11 +177,11 @@ public class login extends javax.swing.JFrame {
         });
         jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 216, 40, 40));
 
-        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(199, 226, 255));
-        jCheckBox1.setText("Remember Password");
-        jCheckBox1.setOpaque(false);
-        jPanel2.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 261, -1, -1));
+        checkbox_Remember.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        checkbox_Remember.setForeground(new java.awt.Color(199, 226, 255));
+        checkbox_Remember.setText("Remember Me");
+        checkbox_Remember.setOpaque(false);
+        jPanel2.add(checkbox_Remember, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 261, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(199, 226, 255));
@@ -219,7 +243,7 @@ public class login extends javax.swing.JFrame {
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         // TODO add your handling code here:
         if (txtusername.getText().equals("") && txtpassword.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "username and password required !!");
+            JOptionPane.showMessageDialog(null, "Username and password required !!");
         } else {
             try {
                 java.sql.Connection conn = (java.sql.Connection) koneksi.getKoneksi();
@@ -228,25 +252,30 @@ public class login extends javax.swing.JFrame {
                 if (sql.next()) {
                     String hashedPassword = PasswordHash.hashPassword(new String(txtpassword.getPassword()));
                     if (hashedPassword.equals(sql.getString("password"))) {
-                        JOptionPane.showMessageDialog(null, "login berhasil");
+                        JOptionPane.showMessageDialog(null, "Login successful", "Restaurant Kita", JOptionPane.INFORMATION_MESSAGE);
+                        if (checkbox_Remember.isSelected()) {
+                            saveCredentials(txtusername.getText(), hashedPassword);
+                        } else {
+                            clearCredentials();
+                        }
                         this.dispose();
                         fmenu fb = new fmenu();
                         fb.setVisible(true);
                         this.setVisible(false);
                     } else {
-                        JOptionPane.showMessageDialog(null, "username and password salah");
+                        JOptionPane.showMessageDialog(null, "Incorrect username or password");
                         txtusername.setText("");
                         txtpassword.setText("");
                         txtusername.requestFocus();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "username dan password tidak tersedia");
+                    JOptionPane.showMessageDialog(null, "Username and password not available");
                     txtusername.setText("");
                     txtpassword.setText("");
                     txtusername.requestFocus();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "terjadi kesalahan");
+                JOptionPane.showMessageDialog(null, "An error occurred");
             }
         }
     }//GEN-LAST:event_btn_loginActionPerformed
@@ -288,8 +317,8 @@ public class login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
+    private javax.swing.JCheckBox checkbox_Remember;
     private javax.swing.JLabel disable;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

@@ -131,7 +131,7 @@
               <Font name="Segoe UI Black" size="24" style="0"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Restaurant Menus"/>
+            <Property name="text" type="java.lang.String" value="Take Away Menu"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">

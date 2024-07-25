@@ -284,7 +284,7 @@ public class fTakeAway extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Restaurant Menus");
+        jLabel1.setText("Take Away Menu");
 
         labelDisplayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/matcha.jpg"))); // NOI18N
 
